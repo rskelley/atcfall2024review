@@ -22,27 +22,38 @@ public class QuestionCollector {
 
     }
 
-    public static void saveQuestions(String username, String[] questions, int counter) {        
+    public static void saveQuestions(String username, String[] questions, int counter) {   
+        // create a file based on our username     
         String fileName = username+"questions.txt";
         try {
             FileWriter outFile = new FileWriter(fileName);
             
             for(int ndx=0;ndx<counter;ndx++){
+                // Write each question out to the file
                 outFile.write(questions[ndx]+"\n");
                 System.out.println(questions[ndx]);
             }
+            // Don't forget to close!!!
             outFile.close();
         }
         catch (Exception e){
+            // Some classes in Java might throw an Exception which must be caught, so we have this try catch block
             System.out.println("There was an error trying to save your file!");
         }
     }
 
     public static void main(String []args) {
-        // Get the usersname
+        // declare all of our function scope variables in one place
         String userName="";
-        cliInput = new Scanner(System.in);
         Boolean ok = false;
+        String question;
+        String[] questions = new String[5]; // This declares AND initializes an empty array
+        int counter = 0; // another initialization for later
+
+        // the scanner variable is global, so this is an assignment, not a declaration
+        cliInput = new Scanner(System.in);
+        
+        // Get the usersname
         while (!ok) {
             // Only checking for empty string -- we could do more
             System.out.print("Please enter a username.  Do not include spaces: ");
@@ -51,19 +62,24 @@ public class QuestionCollector {
                 ok = true;
             }
         }
-        String question = getQuestion();
-        String[] questions = new String[5]; // This declares AND initializes an empty array
-        int counter = 0;
+        System.out.println("The name entered was "+userName);
+
+        // Now get our questions
+        question = getQuestion();
         while (!question.equals("") && counter < MAX_QUESTIONS) {
             // save the question to our Array, then get the next question
             questions[counter] = question;
             counter = counter + 1;
             question = getQuestion();
         }
-        System.out.println("There were "+counter+ " questions entered");
-        System.out.println("The name entered was "+userName);
-        saveQuestions(userName, questions, counter); 
-        System.out.println("Done");
+        // We said we have to have at least one question! Don't save anything if there is nothing to save
+        if (counter > 0) {
+            saveQuestions(userName, questions, counter); 
+        }
+        else {
+            System.out.println("There were no questions entered!! Nothing saved.");
+        }
+        System.out.println("Done!");
     }
 
 }
