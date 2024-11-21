@@ -16,10 +16,10 @@ public class QuestionCollector {
     public static Scanner cliInput;
 
     public static String getQuestion() {
+        // the cliInput variable is global
         System.out.print("Enter a question.  Just press enter to quit: ");
         String userInput = cliInput.nextLine();
         return userInput;
-
     }
 
     public static void saveQuestions(String username, String[] questions, int counter) {   
