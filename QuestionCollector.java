@@ -10,17 +10,37 @@ save the questions in a file named {username}questions.txt
 
 */
 import java.util.Scanner;
+import java.io.FileWriter;
 public class QuestionCollector {
-    public static String userName;
     public static final int MAX_QUESTIONS = 5;
     public static Scanner cliInput;
+
     public static String getQuestion() {
         System.out.print("Enter a question.  Just press enter to quit: ");
         String userInput = cliInput.nextLine();
         return userInput;
+
     }
+
+    public static void saveQuestions(String username, String[] questions, int counter) {        
+        String fileName = username+"questions.txt";
+        try {
+            FileWriter outFile = new FileWriter(fileName);
+            
+            for(int ndx=0;ndx<counter;ndx++){
+                outFile.write(questions[ndx]+"\n");
+                System.out.println(questions[ndx]);
+            }
+            outFile.close();
+        }
+        catch (Exception e){
+            System.out.println("There was an error trying to save your file!");
+        }
+    }
+
     public static void main(String []args) {
         // Get the usersname
+        String userName="";
         cliInput = new Scanner(System.in);
         Boolean ok = false;
         while (!ok) {
@@ -42,6 +62,7 @@ public class QuestionCollector {
         }
         System.out.println("There were "+counter+ " questions entered");
         System.out.println("The name entered was "+userName);
+        saveQuestions(userName, questions, counter); 
         System.out.println("Done");
     }
 
