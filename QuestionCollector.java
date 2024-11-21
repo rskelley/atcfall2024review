@@ -32,12 +32,12 @@ public class QuestionCollector {
             }
         }
         String question = getQuestion();
-        String[] questions = {"","","","",""};
+        String[] questions = new String[5]; // This declares AND initializes an empty array
         int counter = 0;
         while (!question.equals("") && counter < MAX_QUESTIONS) {
+            // save the question to our Array, then get the next question
             questions[counter] = question;
             counter = counter + 1;
-            // do something, then get another question
             question = getQuestion();
         }
         System.out.println("There were "+counter+ " questions entered");
