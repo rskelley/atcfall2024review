@@ -57,7 +57,8 @@ class SurveyData:
     def store_responses(self):
         with open(f"{username}responses.txt", "a") as f:
             for a in self.answers:
-                f.write(a)
+                # Force it to be an uppercase Y/N
+                f.write(a.upper()) 
             # this will store the responses all on one line, so make sure to add a newline
             f.write("\n")
         
