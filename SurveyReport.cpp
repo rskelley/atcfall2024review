@@ -1,47 +1,9 @@
 #include <fstream>
 #include <iostream>
+#include "SurveyClasses.cpp"
 
 using namespace std;
 
-/*
-Use similar class as used in the python program
-*/
-class SurveyQuestions {
- public:
-  SurveyQuestions();
-  SurveyQuestions(string);
-  void loadQuestions();
-  int numberQuestions;
-  string questions[5];
-
- private:
-  string username;
-};
-
-SurveyQuestions::SurveyQuestions() {
-  username = "";
-  for (int ndx = 0; ndx < 5; ndx++) {
-    questions[ndx] = "";
-  }
-  numberQuestions = 0;
-}
-SurveyQuestions::SurveyQuestions(string inputName) {
-  username = inputName;
-  for (int ndx = 0; ndx < 5; ndx++) {
-    questions[ndx] = "";
-  }
-  numberQuestions = 0;
-}
-void SurveyQuestions::loadQuestions() {
-  string fileName = username + "questions.txt";
-  ifstream inputFile(fileName);
-  numberQuestions = 0;
-  string question;
-  while (getline(inputFile, question)) {
-    questions[numberQuestions] = question;
-    numberQuestions++;
-  }
-}
 
 int main(int argc, char* argv[]) {
   string userName = "";
@@ -62,7 +24,7 @@ int main(int argc, char* argv[]) {
 
   // Load the questions
   survey.loadQuestions();
-  cout << "Loaded " << survey.numberQuestions << " questions " << endl;
+  cout << "Loaded " << survey.questionCount() << " questions " << endl;
   // Now, we need to open the responses file
   ifstream responsesFile(userName + "responses.txt");
 
@@ -71,7 +33,7 @@ int main(int argc, char* argv[]) {
   while (getline(responsesFile, responseLine)) {
     // at this point, we have a line with up to 5 characters, a Y or N per
     // question
-    for (int ndx = 0; ndx < survey.numberQuestions; ndx++) {
+    for (int ndx = 0; ndx < survey.questionCount(); ndx++) {
       char answer = responseLine[ndx];
       if (answer == 'Y') {
         responseTotalsYes[ndx]++;
@@ -80,7 +42,7 @@ int main(int argc, char* argv[]) {
       }
     }
   }
-  for (int ndx = 0; ndx < survey.numberQuestions; ndx++) {
+  for (int ndx = 0; ndx < survey.questionCount(); ndx++) {
     int yes, no;
     yes = responseTotalsYes[ndx];
     no = responseTotalsNo[ndx];
@@ -91,7 +53,7 @@ int main(int argc, char* argv[]) {
     if (no == yes) {
       result = "Maybe";
     }
-    cout << survey.questions[ndx];
+    cout << survey.question(ndx);
     cout << " Yes: " << yes;
     cout << " No: " << no << endl;
     cout << " ** For this question the majority says " << result << endl;
