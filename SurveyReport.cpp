@@ -70,10 +70,22 @@ int main(int argc, char* argv[]) {
     string responseLine = "";
     while(getline(responsesFile, responseLine)) {
         // at this point, we have a line with up to 5 characters, a Y or N per question
-        cout << responseLine << endl;
+        for(int ndx=0; ndx<survey.numberQuestions;ndx++) {
+            char answer = responseLine[ndx];
+            if (answer == 'Y') {
+                responseTotalsYes[ndx]++;
+            }
+            else {
+                responseTotalsNo[ndx]++;
+            }
+            cout << ndx << " " << answer << endl;
+        }
     }
     for(int ndx=0;ndx < survey.numberQuestions; ndx++) {
-        cout << survey.questions[ndx] << endl;
+        cout << survey.questions[ndx] ;
+        cout << " Yes: " << responseTotalsYes[ndx];
+        cout << " No: " << responseTotalsNo[ndx];
+        cout << endl;
     }
     
     cout << "Done" << endl;
